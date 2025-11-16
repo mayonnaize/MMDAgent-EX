@@ -19,6 +19,8 @@ jobs:
   test-ubuntu:
     name: Test Plugin_VIManager on Ubuntu
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout code
