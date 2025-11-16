@@ -56,11 +56,11 @@ To generate code coverage reports:
 
 3. Generate coverage report (requires lcov):
    ```bash
-   # Capture coverage data
-   lcov --capture --directory . --output-file coverage.info
+   # Capture coverage data (add --ignore-errors if using newer gcov versions)
+   lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch,gcov,source
    
    # Filter out system headers and test files
-   lcov --remove coverage.info '/usr/*' '*/test/*' '*/gtest/*' '*/_deps/*' --output-file coverage_filtered.info
+   lcov --remove coverage.info '/usr/*' '*/test/*' '*/gtest/*' '*/_deps/*' --output-file coverage_filtered.info --ignore-errors unused
    
    # Display summary
    lcov --summary coverage_filtered.info

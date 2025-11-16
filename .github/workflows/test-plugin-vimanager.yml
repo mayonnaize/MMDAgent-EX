@@ -73,10 +73,10 @@ jobs:
       - name: Generate coverage report
         run: |
           cd build
-          # Capture coverage data
-          lcov --capture --directory . --output-file coverage.info
+          # Capture coverage data (ignore mismatch errors from newer gcov versions)
+          lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch,gcov,source
           # Filter out system headers and test files
-          lcov --remove coverage.info '/usr/*' '*/test/*' '*/gtest/*' '*/_deps/*' --output-file coverage_filtered.info
+          lcov --remove coverage.info '/usr/*' '*/test/*' '*/gtest/*' '*/_deps/*' --output-file coverage_filtered.info --ignore-errors unused
           # Generate summary
           lcov --list coverage_filtered.info
           
