@@ -39,7 +39,6 @@ include_directories(
     ../../Library_UTF8-CPP/include
     ../../Library_libpng/include
     ../../Library_cpphttplib/include
-    ../../Library_Bullet_Physics/src/test/gtest-1.7.0/include
 )
 
 # Compile definitions
@@ -59,10 +58,16 @@ link_libraries(
     ${RE_LIBRARIES}
 )
 
-# Add gtest library
-if(NOT TARGET gtest)
-    add_subdirectory(../../Library_Bullet_Physics/src/test/gtest-1.7.0 ${CMAKE_CURRENT_BINARY_DIR}/gtest)
-endif()
+# Find or fetch Google Test
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG        v1.14.0
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
 if(NOT WIN32)
     link_libraries(pthread)
@@ -75,7 +80,7 @@ add_executable(VIManager_test
 )
 
 target_link_libraries(VIManager_test
-    gtest
+    gtest_main
     MMDAGENT
     ${RE_LIBRARIES}
 )
@@ -103,7 +108,7 @@ add_executable(VIManager_Logger_test
 )
 
 target_link_libraries(VIManager_Logger_test
-    gtest
+    gtest_main
     MMDAGENT
     ${RE_LIBRARIES}
 )
@@ -132,7 +137,7 @@ add_executable(VIManager_Thread_test
 )
 
 target_link_libraries(VIManager_Thread_test
-    gtest
+    gtest_main
     MMDAGENT
     ${RE_LIBRARIES}
 )
@@ -162,7 +167,7 @@ add_executable(Plugin_VIManager_test
 )
 
 target_link_libraries(Plugin_VIManager_test
-    gtest
+    gtest_main
     MMDAGENT
     ${RE_LIBRARIES}
 )

@@ -56,7 +56,7 @@ To add new tests:
 ## Dependencies
 
 The tests depend on:
-- Google Test 1.7.0 (included in Library_Bullet_Physics/src/test/gtest-1.7.0)
+- Google Test v1.14.0 (automatically fetched via CMake FetchContent)
 - MMDAgent library
 - re2 library (for regular expression support)
 - Other libraries required by Plugin_VIManager

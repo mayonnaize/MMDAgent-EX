@@ -60,7 +60,7 @@ Plugin_VIManager/
 ## Build Configuration
 
 ### CMakeLists.txt Features
-- Uses existing Google Test 1.7.0 from `Library_Bullet_Physics/src/test/gtest-1.7.0`
+- Uses Google Test v1.14.0 fetched via CMake FetchContent
 - Proper include directories for all required headers
 - Links with MMDAGENT library and re2 library
 - Supports both macOS and Linux platforms
@@ -68,7 +68,7 @@ Plugin_VIManager/
 - Integrated with CTest framework
 
 ### Dependencies
-- Google Test 1.7.0 (included in repository)
+- Google Test v1.14.0 (automatically downloaded via FetchContent)
 - MMDAGENT library
 - re2 library (for regular expression support)
 - pthread (on non-Windows platforms)
