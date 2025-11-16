@@ -34,12 +34,25 @@ include_directories(
     ../../Library_GLFW/include
     ../../Library_MMDFiles/include
     ../../Library_MMDAgent/include
+    ../../Library_MMDAgent/src/include
+    ../../Library_FreeType/include
+    ../../Library_UTF8-CPP/include
+    ../../Library_libpng/include
+    ../../Library_cpphttplib/include
     ../../Library_Bullet_Physics/src/test/gtest-1.7.0/include
 )
 
 # Compile definitions
 add_definitions(-DMMDAGENT)
 add_definitions(-D_VARIADIC_MAX=10)
+if(APPLE)
+    add_definitions(-DGL_GLEXT_PROTOTYPES)
+    add_definitions(-DMMDAGENT_DONTPICKMODEL)
+    add_definitions(-DNO_OFFSCREEN_RENDERING)
+else()
+    add_definitions(-DGL_GLEXT_PROTOTYPES)
+    add_definitions(-DMMDAGENT_DONTPICKMODEL)
+endif()
 
 # Link libraries
 link_libraries(
@@ -63,7 +76,8 @@ add_executable(VIManager_test
 
 target_link_libraries(VIManager_test
     gtest
-    ${MMDAGENT_LINK_OPTIONS}
+    MMDAGENT
+    ${RE_LIBRARIES}
 )
 
 if(APPLE)
@@ -90,7 +104,8 @@ add_executable(VIManager_Logger_test
 
 target_link_libraries(VIManager_Logger_test
     gtest
-    ${MMDAGENT_LINK_OPTIONS}
+    MMDAGENT
+    ${RE_LIBRARIES}
 )
 
 if(APPLE)
@@ -118,7 +133,8 @@ add_executable(VIManager_Thread_test
 
 target_link_libraries(VIManager_Thread_test
     gtest
-    ${MMDAGENT_LINK_OPTIONS}
+    MMDAGENT
+    ${RE_LIBRARIES}
 )
 
 if(APPLE)
@@ -147,7 +163,8 @@ add_executable(Plugin_VIManager_test
 
 target_link_libraries(Plugin_VIManager_test
     gtest
-    ${MMDAGENT_LINK_OPTIONS}
+    MMDAGENT
+    ${RE_LIBRARIES}
 )
 
 if(APPLE)
