@@ -37,16 +37,13 @@ Plugin_VIManager/
 - `RenderWithVariousScreenSizes` - Tests render() with different screen sizes
 - `RenderAfterSetup` - Tests render() after setup()
 
-#### VIManager_Thread_test.cpp (9 test cases)
+#### VIManager_Thread_test.cpp (6 test cases)
 - `ConstructorDestructor` - Tests VIManager_Thread lifecycle
 - `MultipleInstances` - Tests multiple thread instances
 - `IsRunning` - Tests isRunning() returns false when not started
 - `IsRunningMultipleCalls` - Tests isRunning() consistency
 - `RenderLog` - Tests renderLog() when not running
 - `RenderLogVariousSizes` - Tests renderLog() with various screen sizes
-- `UpdatePredictWords` - Tests updatePredictWords() when not running
-- `UpdatePredictWordsMultipleCalls` - Tests updatePredictWords() multiple times
-- `UpdateSubList` - Tests updateSubList() when not running
 
 #### Plugin_VIManager_test.cpp (5 test cases)
 - `BasicStructure` - Tests that plugin structure compiles correctly
@@ -55,7 +52,7 @@ Plugin_VIManager/
 - `VIManagerThreadComponent` - Tests VIManager_Thread component in plugin context
 - `AllComponentsTogether` - Tests all components work together
 
-### Total Test Cases: 28
+### Total Test Cases: 25
 
 ## Build Configuration
 

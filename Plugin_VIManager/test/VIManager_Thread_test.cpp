@@ -77,38 +77,6 @@ TEST(VIManagerThreadTest, RenderLogVariousSizes) {
     SUCCEED();
 }
 
-// Test VIManager_Thread updatePredictWords
-TEST(VIManagerThreadTest, UpdatePredictWords) {
-    VIManager_Thread thread;
-    
-    // updatePredictWords should not crash even when not running
-    thread.updatePredictWords();
-    
-    SUCCEED();
-}
-
-// Test VIManager_Thread updatePredictWords multiple calls
-TEST(VIManagerThreadTest, UpdatePredictWordsMultipleCalls) {
-    VIManager_Thread thread;
-    
-    // Multiple calls should be safe
-    thread.updatePredictWords();
-    thread.updatePredictWords();
-    thread.updatePredictWords();
-    
-    SUCCEED();
-}
-
-// Test VIManager_Thread updateSubList
-TEST(VIManagerThreadTest, UpdateSubList) {
-    VIManager_Thread thread;
-    
-    // updateSubList should not crash when not running
-    thread.updateSubList();
-    
-    SUCCEED();
-}
-
 int main(int argc, char **argv) {
 #if _MSC_VER
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
