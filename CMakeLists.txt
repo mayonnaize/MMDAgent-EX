@@ -98,6 +98,9 @@ SET(CMAKE_C_FLAGS_RELEASE "-O3 -fomit-frame-pointer ${OPT_ARCH_FLAG} -ffast-math
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -fomit-frame-pointer ${OPT_ARCH_FLAG} -ffast-math")
 SET(CMAKE_POSITION_INDEPENDENT_CODE "On")
 
+# Enable testing for CTest
+enable_testing()
+
 add_subdirectory(Library_Bullet_Physics)
 add_subdirectory(Library_Flite_plus_hts_engine)
 add_subdirectory(Library_FreeType)
