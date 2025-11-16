@@ -51,13 +51,14 @@ jobs:
             libpng-dev \
             libjpeg8-dev \
             libre2-dev \
-            portaudio19-dev
+            portaudio19-dev \
+            lcov
 
       - name: Configure CMake
         run: |
           mkdir -p build
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON
 
       - name: Build Plugin_VIManager tests
         run: |
@@ -68,3 +69,19 @@ jobs:
         run: |
           cd build
           ctest -R VIManager --output-on-failure --verbose
+
+      - name: Generate coverage report
+        run: |
+          cd build
+          # Capture coverage data
+          lcov --capture --directory . --output-file coverage.info
+          # Filter out system headers and test files
+          lcov --remove coverage.info '/usr/*' '*/test/*' '*/gtest/*' '*/_deps/*' --output-file coverage_filtered.info
+          # Generate summary
+          lcov --list coverage_filtered.info
+          
+      - name: Display coverage summary
+        run: |
+          cd build
+          echo "=== Code Coverage Summary ==="
+          lcov --summary coverage_filtered.info

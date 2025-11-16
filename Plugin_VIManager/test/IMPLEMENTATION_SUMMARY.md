@@ -63,12 +63,14 @@ Plugin_VIManager/
 - Supports both macOS and Linux platforms
 - Compiler flags match the main project configuration
 - Integrated with CTest framework
+- Optional code coverage support (enabled with -DCODE_COVERAGE=ON)
 
 ### Dependencies
 - Google Test v1.14.0 (automatically downloaded via FetchContent)
 - MMDAGENT library
 - re2 library (for regular expression support)
 - pthread (on non-Windows platforms)
+- lcov (optional, for code coverage reports)
 
 ## Integration with Main Build
 
@@ -100,6 +102,40 @@ ctest -R VIManager
 ./Plugin_VIManager/test/VIManager_Thread_test
 ./Plugin_VIManager/test/Plugin_VIManager_test
 ```
+
+## Code Coverage
+
+### Generating Coverage Reports
+
+To build with code coverage enabled:
+
+```bash
+cd /path/to/MMDAgent-EX
+mkdir -p build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON
+make
+ctest -R VIManager
+```
+
+Generate coverage report:
+```bash
+# Capture coverage data
+lcov --capture --directory . --output-file coverage.info
+
+# Filter out system headers and test files
+lcov --remove coverage.info '/usr/*' '*/test/*' '*/gtest/*' '*/_deps/*' --output-file coverage_filtered.info
+
+# Display summary
+lcov --summary coverage_filtered.info
+
+# Generate HTML report (optional)
+genhtml coverage_filtered.info --output-directory coverage_html
+```
+
+### CI/CD Coverage
+
+The GitHub Actions workflow automatically generates and displays code coverage reports for each test run on Ubuntu.
 
 ## Test Design Philosophy
 

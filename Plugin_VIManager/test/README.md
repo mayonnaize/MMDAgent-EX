@@ -36,6 +36,39 @@ The tests are integrated into the main CMake build system. To build and run the 
    ./Plugin_VIManager/test/Plugin_VIManager_test
    ```
 
+## Code Coverage
+
+To generate code coverage reports:
+
+1. Configure with coverage enabled:
+   ```bash
+   cd /path/to/MMDAgent-EX
+   mkdir -p build
+   cd build
+   cmake .. -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON
+   make
+   ```
+
+2. Run the tests:
+   ```bash
+   ctest -R VIManager
+   ```
+
+3. Generate coverage report (requires lcov):
+   ```bash
+   # Capture coverage data
+   lcov --capture --directory . --output-file coverage.info
+   
+   # Filter out system headers and test files
+   lcov --remove coverage.info '/usr/*' '*/test/*' '*/gtest/*' '*/_deps/*' --output-file coverage_filtered.info
+   
+   # Display summary
+   lcov --summary coverage_filtered.info
+   
+   # Generate HTML report (optional)
+   genhtml coverage_filtered.info --output-directory coverage_html
+   ```
+
 ## Test Structure
 
 Each test file follows the Google Test framework conventions:

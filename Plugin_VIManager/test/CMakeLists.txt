@@ -53,6 +53,14 @@ else()
     add_definitions(-DMMDAGENT_DONTPICKMODEL)
 endif()
 
+# Code coverage option
+option(CODE_COVERAGE "Enable code coverage" OFF)
+if(CODE_COVERAGE AND CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage -lgcov")
+endif()
+
 # Link libraries
 link_libraries(
     ${RE_LIBRARIES}
