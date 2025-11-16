@@ -28,11 +28,30 @@ TEST(VIManagerThreadTest, ConstructorDestructor) {
     SUCCEED();
 }
 
+// Test VIManager_Thread multiple instances
+TEST(VIManagerThreadTest, MultipleInstances) {
+    VIManager_Thread thread1;
+    VIManager_Thread thread2;
+    
+    // Multiple instances should be safe to create
+    SUCCEED();
+}
+
 // Test VIManager_Thread isRunning
 TEST(VIManagerThreadTest, IsRunning) {
     VIManager_Thread thread;
     
     // Should return false when not started
+    EXPECT_FALSE(thread.isRunning());
+}
+
+// Test VIManager_Thread isRunning multiple calls
+TEST(VIManagerThreadTest, IsRunningMultipleCalls) {
+    VIManager_Thread thread;
+    
+    // Multiple calls should be consistent
+    EXPECT_FALSE(thread.isRunning());
+    EXPECT_FALSE(thread.isRunning());
     EXPECT_FALSE(thread.isRunning());
 }
 
@@ -46,12 +65,46 @@ TEST(VIManagerThreadTest, RenderLog) {
     SUCCEED();
 }
 
+// Test VIManager_Thread renderLog with various sizes
+TEST(VIManagerThreadTest, RenderLogVariousSizes) {
+    VIManager_Thread thread;
+    
+    // Test with different screen dimensions
+    thread.renderLog(1920.0f, 1080.0f);
+    thread.renderLog(1280.0f, 720.0f);
+    thread.renderLog(640.0f, 480.0f);
+    
+    SUCCEED();
+}
+
 // Test VIManager_Thread updatePredictWords
 TEST(VIManagerThreadTest, UpdatePredictWords) {
     VIManager_Thread thread;
     
     // updatePredictWords should not crash even when not running
     thread.updatePredictWords();
+    
+    SUCCEED();
+}
+
+// Test VIManager_Thread updatePredictWords multiple calls
+TEST(VIManagerThreadTest, UpdatePredictWordsMultipleCalls) {
+    VIManager_Thread thread;
+    
+    // Multiple calls should be safe
+    thread.updatePredictWords();
+    thread.updatePredictWords();
+    thread.updatePredictWords();
+    
+    SUCCEED();
+}
+
+// Test VIManager_Thread updateSubList
+TEST(VIManagerThreadTest, UpdateSubList) {
+    VIManager_Thread thread;
+    
+    // updateSubList should not crash when not running
+    thread.updateSubList();
     
     SUCCEED();
 }

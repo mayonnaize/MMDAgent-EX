@@ -27,8 +27,18 @@ TEST(VIManagerLoggerTest, ConstructorDestructor) {
     SUCCEED();
 }
 
-// Test VIManager_Logger setup
-TEST(VIManagerLoggerTest, Setup) {
+// Test VIManager_Logger multiple instances
+TEST(VIManagerLoggerTest, MultipleInstances) {
+    VIManager_Logger logger1;
+    VIManager_Logger logger2;
+    VIManager_Logger logger3;
+    
+    // Multiple instances should be safe to create
+    SUCCEED();
+}
+
+// Test VIManager_Logger setup with nullptr
+TEST(VIManagerLoggerTest, SetupWithNull) {
     VIManager_Logger logger;
     
     // Setup with nullptr should not crash
@@ -42,6 +52,28 @@ TEST(VIManagerLoggerTest, RenderWithNullParams) {
     VIManager_Logger logger;
     
     // Render with null list should not crash
+    logger.render(nullptr, 0, 800.0f, 600.0f);
+    
+    SUCCEED();
+}
+
+// Test VIManager_Logger render with various screen sizes
+TEST(VIManagerLoggerTest, RenderWithVariousScreenSizes) {
+    VIManager_Logger logger;
+    
+    // Test with different screen dimensions
+    logger.render(nullptr, 0, 1920.0f, 1080.0f);
+    logger.render(nullptr, 0, 1280.0f, 720.0f);
+    logger.render(nullptr, 0, 640.0f, 480.0f);
+    
+    SUCCEED();
+}
+
+// Test VIManager_Logger render after setup
+TEST(VIManagerLoggerTest, RenderAfterSetup) {
+    VIManager_Logger logger;
+    
+    logger.setup(nullptr);
     logger.render(nullptr, 0, 800.0f, 600.0f);
     
     SUCCEED();

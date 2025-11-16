@@ -16,11 +16,58 @@
 
 #include <gtest/gtest.h>
 #include "MMDAgent.h"
+#include "VIManager.h"
+#include "VIManager_Logger.h"
+#include "VIManager_Thread.h"
 
-// Basic test to verify plugin structure compiles
+// Test that plugin structures compile correctly
 TEST(PluginVIManagerTest, BasicStructure) {
     // This test verifies that the plugin structure is properly set up
     // and can be compiled with all dependencies
+    SUCCEED();
+}
+
+// Test VIManager component integration
+TEST(PluginVIManagerTest, VIManagerComponent) {
+    VIManager vim;
+    
+    // Basic VIManager should work within plugin context
+    EXPECT_NE(vim.getCurrentVariableList(), nullptr);
+    SUCCEED();
+}
+
+// Test VIManager_Logger component integration
+TEST(PluginVIManagerTest, VIManagerLoggerComponent) {
+    VIManager_Logger logger;
+    
+    // Logger should work within plugin context
+    logger.setup(nullptr);
+    logger.render(nullptr, 0, 800.0f, 600.0f);
+    SUCCEED();
+}
+
+// Test VIManager_Thread component integration
+TEST(PluginVIManagerTest, VIManagerThreadComponent) {
+    VIManager_Thread thread;
+    
+    // Thread should work within plugin context
+    EXPECT_FALSE(thread.isRunning());
+    SUCCEED();
+}
+
+// Test all components together
+TEST(PluginVIManagerTest, AllComponentsTogether) {
+    VIManager vim;
+    VIManager_Logger logger;
+    VIManager_Thread thread;
+    
+    // All components should coexist
+    EXPECT_NE(vim.getCurrentVariableList(), nullptr);
+    EXPECT_FALSE(thread.isRunning());
+    
+    logger.setup(nullptr);
+    thread.renderLog(800.0f, 600.0f);
+    
     SUCCEED();
 }
 

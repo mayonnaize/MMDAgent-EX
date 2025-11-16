@@ -22,14 +22,14 @@
 TEST(VIManagerTest, InputArgumentsInitializeAndClear) {
     InputArguments ia;
     
-    // Test with null string
+    // Test with empty string
     InputArguments_initialize(&ia, "");
     EXPECT_EQ(ia.size, 0);
     EXPECT_EQ(ia.args, nullptr);
     EXPECT_EQ(ia.argc, nullptr);
     InputArguments_clear(&ia);
     
-    // Test with simple string
+    // Test with simple string containing separators
     InputArguments_initialize(&ia, "arg1|arg2|arg3");
     EXPECT_GT(ia.size, 0);
     EXPECT_NE(ia.args, nullptr);
@@ -40,6 +40,33 @@ TEST(VIManagerTest, InputArgumentsInitializeAndClear) {
     EXPECT_EQ(ia.size, 0);
     EXPECT_EQ(ia.args, nullptr);
     EXPECT_EQ(ia.argc, nullptr);
+}
+
+// Test InputArguments with nested separators
+TEST(VIManagerTest, InputArgumentsNestedSeparators) {
+    InputArguments ia;
+    
+    // Test with nested separators (| and ,)
+    InputArguments_initialize(&ia, "arg1,arg2|arg3,arg4");
+    EXPECT_GT(ia.size, 0);
+    if (ia.size > 0) {
+        EXPECT_NE(ia.args, nullptr);
+        EXPECT_NE(ia.argc, nullptr);
+    }
+    InputArguments_clear(&ia);
+}
+
+// Test InputArguments double clear (should be safe)
+TEST(VIManagerTest, InputArgumentsDoubleClear) {
+    InputArguments ia;
+    
+    InputArguments_initialize(&ia, "test");
+    InputArguments_clear(&ia);
+    // Second clear should not crash
+    InputArguments_clear(&ia);
+    
+    EXPECT_EQ(ia.size, 0);
+    EXPECT_EQ(ia.args, nullptr);
 }
 
 // Test VIManager constructor and destructor
@@ -57,7 +84,7 @@ TEST(VIManagerTest, ConstructorDestructor) {
 TEST(VIManagerTest, GetEndFlag) {
     VIManager vim;
     
-    // Initially should return a boolean value
+    // Initially should return a boolean value (typically true for uninitialized)
     bool flag = vim.getEndFlag();
     EXPECT_TRUE(flag == true || flag == false);
 }
@@ -71,6 +98,25 @@ TEST(VIManagerTest, GetTransitionHistory) {
     int count = vim.getTransitionHistory(list, 10);
     EXPECT_GE(count, 0);
     EXPECT_LE(count, 10);
+}
+
+// Test VIManager getCurrentVariableList
+TEST(VIManagerTest, GetCurrentVariableList) {
+    VIManager vim;
+    
+    VIManager_VList* vlist = vim.getCurrentVariableList();
+    EXPECT_NE(vlist, nullptr);
+}
+
+// Test VIManager multiple instances
+TEST(VIManagerTest, MultipleInstances) {
+    VIManager vim1;
+    VIManager vim2;
+    VIManager vim3;
+    
+    // All instances should be independent
+    EXPECT_NE(vim1.getCurrentVariableList(), vim2.getCurrentVariableList());
+    EXPECT_NE(vim2.getCurrentVariableList(), vim3.getCurrentVariableList());
 }
 
 int main(int argc, char **argv) {
