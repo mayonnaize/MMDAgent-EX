@@ -1,0 +1,87 @@
+name: Plugin_VIManager Tests (Ubuntu)
+
+on:
+  push:
+    branches:
+      - main
+      - 'copilot/**'
+    paths:
+      - 'Plugin_VIManager/**'
+      - '.github/workflows/test-plugin-vimanager.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'Plugin_VIManager/**'
+      - '.github/workflows/test-plugin-vimanager.yml'
+
+jobs:
+  test-ubuntu:
+    name: Test Plugin_VIManager on Ubuntu
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            libc6-dev \
+            libasound2-dev \
+            mesa-common-dev \
+            libglu1-mesa-dev \
+            libxrandr-dev \
+            libxmu-dev \
+            libxi-dev \
+            libgl-dev \
+            cmake \
+            libpoco-dev \
+            libglew-dev \
+            libsndfile1-dev \
+            libsamplerate0-dev \
+            zlib1g-dev \
+            libminizip-dev \
+            libpng-dev \
+            libjpeg8-dev \
+            libre2-dev \
+            portaudio19-dev \
+            lcov
+
+      - name: Configure CMake
+        run: |
+          mkdir -p build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON
+
+      - name: Build Plugin_VIManager tests
+        run: |
+          cd build
+          make VIManager_test VIManager_Logger_test VIManager_Thread_test Plugin_VIManager_test -j$(nproc)
+
+      - name: Run Plugin_VIManager tests
+        run: |
+          cd build
+          ctest -R VIManager --output-on-failure --verbose
+
+      - name: Generate coverage report
+        run: |
+          cd build
+          # Capture coverage data (ignore mismatch errors from newer gcov versions)
+          lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch,gcov,source
+          # Filter out system headers and test files
+          lcov --remove coverage.info '/usr/*' '*/test/*' '*/gtest/*' '*/_deps/*' --output-file coverage_filtered.info --ignore-errors unused
+          # Generate summary
+          lcov --list coverage_filtered.info
+          
+      - name: Display coverage summary
+        run: |
+          cd build
+          echo "=== Code Coverage Summary ==="
+          lcov --summary coverage_filtered.info
