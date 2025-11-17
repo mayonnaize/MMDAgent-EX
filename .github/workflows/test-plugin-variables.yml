@@ -68,7 +68,7 @@ jobs:
       - name: Run Plugin_Variables tests
         run: |
           cd build
-          ctest -R Variables --output-on-failure --verbose
+          ctest -R "Variables|CountDown" --output-on-failure --verbose
 
       - name: Generate coverage report
         run: |
