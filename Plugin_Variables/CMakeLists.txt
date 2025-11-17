@@ -40,9 +40,10 @@ target_include_directories(Plugin_Variables PRIVATE
     ../Library_MMDAgent/include
 )
 
-# compiler definitions (-D) for buildtarget_compile_definitions(Plugin_Variables PRIVATE MMDAGENT)
-#target_compile_definitions(Plugin_Variables PRIVATE
-#)
+# compiler definitions (-D) for build
+target_compile_definitions(Plugin_Variables PRIVATE
+    MMDAGENT
+)
 
 # compiler options for build
 target_compile_options(Plugin_Variables PRIVATE
